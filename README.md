@@ -1,19 +1,14 @@
 # -chatglm-
-软件依赖
-运行微调需要4.27.1版本的transformers。除 ChatGLM-6B 的依赖之外，还需要安装以下依赖
-
-pip install rouge_chinese nltk jieba datasets
-使用方法
-下载数据集
+**下载数据集**
 ADGEN 数据集任务为根据输入（content）生成一段广告词（summary）。
 
 {
     "content": "类型#上衣*版型#宽松*版型#显瘦*图案#线条*衣样式#衬衫*衣袖型#泡泡袖*衣款式#抽绳",
     "summary": "这件衬衫的款式非常的宽松，利落的线条可以很好的隐藏身材上的小缺点，穿在身上有着很好的显瘦效果。领口装饰了一个可爱的抽绳，漂亮的绳结展现出了十足的个性，配合时尚的泡泡袖型，尽显女性甜美可爱的气息。"
 }
-从 Google Drive 或者 Tsinghua Cloud 下载处理好的 ADGEN 数据集，将解压后的 AdvertiseGen 目录放到本目录下。
 
-训练
+
+**训练**
 P-Tuning v2
 运行以下指令进行训练：
 
@@ -28,7 +23,7 @@ Finetune
 如果需要进行全参数的 Finetune，需要安装 Deepspeed，然后运行以下指令：
 
 bash ds_train_finetune.sh
-推理
+**推理**
 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，所以在推理时需要同时加载原 ChatGLM-6B 模型以及 PrefixEncoder 的权重，因此需要指定 evaluate.sh 中的参数：
 
 --model_name_or_path THUDM/chatglm-6b
@@ -38,7 +33,7 @@ bash ds_train_finetune.sh
 --model_name_or_path $CHECKPOINT_PATH
 评测指标为中文 Rouge score 和 BLEU-4。生成的结果保存在 ./output/adgen-chatglm-6b-pt-8-1e-2/generated_predictions.txt。
 
-例子
+**例子**
 示例1
 Input: 类型#上衣*材质#牛仔布*颜色#白色*风格#简约*图案#刺绣*衣样式#外套*衣款式#破洞
 Label: 简约而不简单的牛仔外套,白色的衣身十分百搭。衣身多处有做旧破洞设计,打破单调乏味,增加一丝造型看点。衣身后背处有趣味刺绣装饰,丰富层次感,彰显别样时尚。
