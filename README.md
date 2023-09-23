@@ -23,6 +23,8 @@ Finetune
 如果需要进行全参数的 Finetune，需要安装 Deepspeed，然后运行以下指令：
 
 bash ds_train_finetune.sh
+
+
 **推理**
 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，所以在推理时需要同时加载原 ChatGLM-6B 模型以及 PrefixEncoder 的权重，因此需要指定 evaluate.sh 中的参数：
 
